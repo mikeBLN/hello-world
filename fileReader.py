@@ -23,13 +23,13 @@ class CvLib(object):
         '7F49': ['public key template', TYPE_SEC],
         '7F4C': ['CHAT', TYPE_SEC],
         '7F4E': ['certificate body', TYPE_SEC],
-        '81':   ['prime modulud p', TYPE_INT],
-        '82':   ['first coeff a', TYPE_INT],
-        '83':   ['second coeff b', TYPE_INT],
+        '81':   ['prime modulud p', TYPE_OCT],
+        '82':   ['first coeff a', TYPE_OCT],
+        '83':   ['second coeff b', TYPE_OCT],
         '84':   ['base point G', TYPE_ECP],
-        '85':   ['order of base point r', TYPE_INT],
+        '85':   ['order of base point r', TYPE_OCT],
         '86':   ['public point Y', TYPE_ECP],
-        '87':   ['cofactor f', TYPE_INT]
+        '87':   ['cofactor f', TYPE_OCT]
     }
 
     oIDs = {
@@ -129,3 +129,18 @@ class CvLib(object):
         0x02: 'generate qualified signature',
         0x01: 'generate signature'
     }
+
+    def readCvFile(self):
+        with open('cvca.cvcert', 'rb') as cvfile:
+            self.cvdata = cvfile.read()
+        cvfile.closed
+
+
+    def parseCvData(self, cvdata=''):
+
+        cvtree = [
+            ['CV-Certificate',['7F21', 20000, 'Certificate Body'],
+                ['Certificate Body']
+
+            ]
+        ]
